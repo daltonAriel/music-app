@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify
-from sqlalchemy.exc import IntegrityError, DataError
+from sqlalchemy.exc import IntegrityError, DataError, SQLAlchemyError
 from marshmallow.exceptions import ValidationError, MarshmallowError
 
 blueprintException = Blueprint("blueprintException", __name__)
@@ -68,6 +68,20 @@ def attributeError(e: AttributeError):
         jsonify(
             {
                 "message": "An error occurred while accessing an attribute",
+                "exception": str(e),
+            }
+        ),
+        500,
+    )
+
+
+@blueprintException.app_errorhandler(SQLAlchemyError)
+def sqlError(e: SQLAlchemyError):
+    print(e)
+    return (
+        jsonify(
+            {
+                "message": "A database error occurred.",
                 "exception": str(e),
             }
         ),
