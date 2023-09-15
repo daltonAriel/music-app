@@ -2,6 +2,7 @@ import os
 from flask import Flask
 from extensions import db, ma, bc, sc
 from routes import userRoutes, roleRoutes
+from exceptions import blueprintException
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -13,6 +14,7 @@ app.config["SQLALCHEMY_ECHO"] = True
 
 app.register_blueprint(userRoutes.UserRoutes)
 app.register_blueprint(roleRoutes.RoleRoutes)
+app.register_blueprint(blueprintException)
 
 db.init_app(app)
 ma.init_app(app)

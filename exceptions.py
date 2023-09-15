@@ -59,3 +59,17 @@ def marshmallowError(e: MarshmallowError):
         ),
         500,
     )
+
+
+@blueprintException.app_errorhandler(AttributeError)
+def attributeError(e: AttributeError):
+    print(e)
+    return (
+        jsonify(
+            {
+                "message": "An error occurred while accessing an attribute",
+                "exception": str(e),
+            }
+        ),
+        500,
+    )
