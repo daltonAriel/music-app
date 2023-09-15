@@ -1,5 +1,6 @@
 from extensions import db, ma, bc
 from models.role import RoleSchema
+from marshmallow import validate
 
 
 class User(db.Model):
@@ -16,7 +17,9 @@ class User(db.Model):
 
 
 class UserSchema(ma.SQLAlchemyAutoSchema):
-    roles = ma.Nested(RoleSchema, many=True, exclude=["role_id", "description"])
+    roles = ma.Nested(
+        RoleSchema, many=True, exclude=["role_id", "description"], missing=[]
+    )
 
     class Meta:
         model = User
