@@ -20,3 +20,7 @@ class UserRepository:
     def coutByEmail(self, email):
         query = db.session.query(User).filter(User.email == email).count()
         return query
+
+    def getById(self, id):
+        query = db.session.query(User).filter(User.id == id).first()
+        return query
