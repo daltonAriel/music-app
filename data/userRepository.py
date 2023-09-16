@@ -22,5 +22,5 @@ class UserRepository:
         return query
 
     def getById(self, id):
-        query = db.session.query(User).filter(User.id == id).first()
+        query = db.session.query(User).filter(User.user_id == id).first()
         return query
