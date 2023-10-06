@@ -28,7 +28,6 @@ def register():
 
 
 @UserRoutes.route("/user/login", methods=["POST"])
-@hasRole(roles=['hola123', 'hola2'])
 def login():
     email = request.json.get("email")
     password = request.json.get("password")
