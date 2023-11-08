@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify
 from sqlalchemy.exc import IntegrityError, DataError, SQLAlchemyError
 from marshmallow.exceptions import ValidationError, MarshmallowError
+import os
 
 blueprintException = Blueprint("blueprintException", __name__)
 
@@ -87,3 +88,24 @@ def sqlError(e: SQLAlchemyError):
         ),
         500,
     )
+
+
+@blueprintException.app_errorhandler(FileNotFoundError)
+def fileNotFoundError(e: FileNotFoundError):
+    print(e)
+    filename = os.path.basename(str(e))
+    return (
+        jsonify(
+            {
+                "message": "The file was not found.",
+                "filename": str(filename),
+            }
+        ),
+        404,
+    )
+
+
+@blueprintException.app_errorhandler(OSError)
+def osError(e: OSError):
+    print(e)
+    return (jsonify({"message": "File system error", "exception": str(e)}), 500)

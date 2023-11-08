@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, g
 from data import UserRepository
 from models import UserSchema
 from utils import JwtUtils
@@ -21,14 +21,14 @@ def register():
 
     if user is not None:
         jwtUtil = JwtUtils()
-        token = jwtUtil.createToken(user)
-        return jsonify({"token": token}), 201
+        accessToken = jwtUtil.createToken(user)
+        refreshToken = jwtUtil.createRefreshToken(identity=user.user_id)
+        return jsonify({"accessToken": accessToken, "refreshToken": refreshToken}), 201
 
     return jsonify({"message": "Registration failed"}), 400
 
 
 @UserRoutes.route("/user/login", methods=["POST"])
-@hasRole(roles=['hola123', 'hola2'])
 def login():
     email = request.json.get("email")
     password = request.json.get("password")
@@ -42,5 +42,16 @@ def login():
         return jsonify({"message": "Error, account is not active"}), 403
 
     jwtUtil = JwtUtils()
-    token = jwtUtil.createToken(user)
-    return jsonify({"token": token}), 200
+    accessToken = jwtUtil.createToken(user)
+    refreshToken = jwtUtil.createRefreshToken(identity=user.user_id)
+    return jsonify({"accessToken": accessToken, "refreshToken": refreshToken}), 200
+
+
+@UserRoutes.route("/user/data", methods=["POST"])
+@jwt_required()
+@hasRole(['customRole'])
+def getProtectedData():
+    print('================')
+    print(g.get('rolesToken'))
+    print('================')
+    return jsonify([1, 2, 3, 4, 5])
