@@ -21,7 +21,9 @@ class Album(db.Model):
 
 
 class AlbumSchema(ma.SQLAlchemyAutoSchema):
+    user_id = ma.auto_field()
+
     class Meta:
         model = Album
         include_fk = False
-        load_instance = False
+        load_instance = True
