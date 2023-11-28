@@ -4,6 +4,7 @@ from extensions import db, ma, bc, sc
 from routes import UserRoutes, RoleRoutes, AlbumRoutes
 from exceptions import blueprintException
 from dotenv import load_dotenv
+from flask_cors import CORS
 
 load_dotenv()
 app = Flask(__name__)
@@ -11,7 +12,7 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///music.sql"
 app.config["SQLALCHEMY_ECHO"] = True
-
+CORS(app)
 
 app.register_blueprint(UserRoutes)
 app.register_blueprint(RoleRoutes)

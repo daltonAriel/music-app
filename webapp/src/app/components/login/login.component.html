@@ -1,0 +1,87 @@
+<div class="min-h-screen flex items-center justify-center bg-cover bg-center"
+    style="background-image: url('/assets/login-bg.jpg');">
+
+    <div class="flex flex-col sm:flex-row overflow-hidden h-screen w-screen sm:h-auto sm:rounded-xl sm:w-auto sm:m-3 md:m-0 backdrop-blur-sm bg-white/20 sm:bg-white/40 ">
+
+        <div class="sm:flex-shrink-0 hidden sm:block max-w-sm max-h-sm rounded-md overflow-hidden">
+            <img src="/assets/login-card-bg.jpg" alt="Imagen"
+                class="object-cover w-full h-full transform blur-[1px]">
+        </div>
+
+
+        <div class="md:flex-shrink-0 mx-5 my-8">
+
+            <h1 class="text-3xl font-semibold mb-10 text-slate-700 text-center">Log In to Music App</h1>
+
+            <form [formGroup]="loginForm" action="#" method="POST">
+
+                <div class="mb-8">
+                    <div class="relative">
+                        <input type="email" id="email" name="email" placeholder="Email"
+                            class="w-full rounded-md p-2 pl-10 h-10 bg-transparent outline-none text-slate-700 border placeholder-slate-500  border-slate-700 focus:ring-inset focus:ring-1 focus:ring-slate-700 transition-all duration-150 ease-out"
+                            formControlName="email">
+                        <div class="absolute top-0 left-0 flex items-center h-full pl-3">
+                            <i class="fa-solid text-slate-700 fa-user text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <label for="email" class="sr-only">Password</label>
+                    <div class="relative">
+                        <input type="password" id="password" name="password" placeholder="Password"
+                            class="w-full rounded-md p-2 pl-10 h-10 bg-transparent outline-none text-slate-700 border placeholder-slate-500  border-slate-700 focus:ring-inset focus:ring-1 focus:ring-slate-700 transition-all duration-150 ease-out"
+                            formControlName="password">
+                        <div class="absolute top-0 left-0 flex items-center h-full pl-3">
+                            <i class="fa-solid text-slate-700 fa-key text-xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex items-center justify-between">
+                        <button (click)="getAccess()" type="submit"
+                            class="w-full bg-slate-800 text-slate-300 px-4 py-2 rounded-md hover:bg-slate-700 focus:outline-none focus:shadow-outline-blue active:bg-slate-600 transition-colors duration-75 ease-linear">
+                            Log In
+                        </button>
+                    </div>
+
+                    <div class="mt-2 flex justify-end">
+                        <a href="/" class="text-slate-700 hover:underline">Forgot Password?</a>
+                    </div>
+
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <button (click)="openModal()" type="submit"
+                        class="w-full bg-slate-800 text-slate-300 px-4 py-2 rounded-md hover:bg-slate-700 focus:outline-none focus:shadow-outline-blue active:bg-slate-600 transition-colors duration-75 ease-linear">
+                        Open modal
+                    </button>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<ng-container *ngIf="modalStatus$|async">
+    <app-modal>
+        <div class="overflow-auto">
+        <button (click)="closeModal()" type="submit"
+            class="w-full bg-slate-800 text-slate-300 px-4 py-2 rounded-md hover:bg-slate-700 focus:outline-none focus:shadow-outline-blue active:bg-slate-600 transition-colors duration-75 ease-linear">
+            Close modal
+        </button>
+        <h1 class="text-2xl">hola a todos123aksdjn aksdjhnakjs dhakjsd jkasndjakjsdnjk aksdjaskjdn akjsndj</h1>
+        <h1 class="text-2xl">hola a todos123aksdjn aksdjhnakjs dhakjsd jkasndjakjsdnjk aksdjaskjdn akjsndj</h1>
+ 
+
+        <h1>FINAL</h1>
+
+    </div>
+
+    </app-modal>
+</ng-container>
