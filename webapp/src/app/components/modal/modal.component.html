@@ -1,12 +1,14 @@
-<div class="fixed inset-0 z-[1050] bg-black bg-opacity-50 overflow-auto">
-  <div class="flex justify-center  min-h-screen">
-    <div class="bg-white p-8 rounded-md m-5 flex flex-col">
-      <div class="m-5">
-        <h1>Titulo del modal</h1>
-      </div>
-      <div class="h-full overflow-auto">
-        <ng-content></ng-content>
-      </div>
-    </div>
+<div class="fixed left-0 top-0 z-[1060] h-[100%] w-[100%] overflow-y-auto overflow-x-hidden outline-0">
+  <div class="m-3 min-[520px]:mx-auto min-w-min max-w-[400px]">
+    <div class="rounded-md bg-white w-[100%] flex flex-col">
+        <div class="flex flex-col p-5">
+          
+        </div> 
   </div>
+  </div>
+</div>
+
+
+
+<div class="fixed inset-0 z-[1050] h-screen w-screen bg-black bg-opacity-50" [ngClass]="{'overflow-auto': !modalScrollable}">
 </div>

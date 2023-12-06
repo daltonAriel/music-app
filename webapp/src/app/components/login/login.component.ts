@@ -45,7 +45,7 @@ export class LoginComponent {
 
 
   openModal() {
-    this.modalService.openModal({size:'small'});
+    this.modalService.openModal({size:'small', scrollable:true});
   }
 
   closeModal() {
