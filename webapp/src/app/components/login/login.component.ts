@@ -1,27 +1,25 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { TokenInterface } from "@interfaces/tokenInterface";
 import { HttpLoginService } from '@services/HttpLoginService.service';
 import { ModalService } from "@services/ModalService.service";
-import { ModalComponent } from '../modal/modal.component';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, HttpClientModule, ModalComponent],
+  imports: [CommonModule, ReactiveFormsModule, HttpClientModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  providers: [HttpLoginService]
+  providers: [HttpLoginService, ModalService]
 })
 export class LoginComponent {
 
   loginForm: FormGroup;
   tokens: TokenInterface = {} as TokenInterface;
-  modalStatus$:Observable<boolean>;
+
 
   constructor(private httpService: HttpLoginService, private modalService: ModalService) {
     this.loginForm = new FormGroup({
@@ -29,7 +27,6 @@ export class LoginComponent {
       password: new FormControl('', Validators.required)
     });
 
-    this.modalStatus$ = this.modalService.getModalStatus();
   }
 
   getAccess() {
@@ -45,11 +42,7 @@ export class LoginComponent {
 
 
   openModal() {
-    this.modalService.openModal({size:'small', scrollable:true});
-  }
-
-  closeModal() {
-    this.modalService.closeModal();
+    
   }
 
 }

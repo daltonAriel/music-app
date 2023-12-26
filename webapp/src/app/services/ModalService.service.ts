@@ -1,51 +1,70 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { ComponentRef, Injectable, Injector, Type, ViewContainerRef, inject, createEnvironmentInjector, EnvironmentInjector, EmbeddedViewRef } from '@angular/core';
+import { ModalBaseComponent } from "../components/modal-base/modal-base.component";
+import { ModalOptionsI } from "@interfaces/modalOptions";
+import { ModalContext } from './ModalContext';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ModalService {
 
-  private modalStatus: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  private modalSize: 'small' | 'large' | 'extraLarge' | 'fullScreen' = 'large';
-  private scrollableContent: boolean = false;
-  private height: 'full' | 'auto' = 'auto';
-  private position: 'top' | 'center' = 'center';
+  private componentRefs: ComponentRef<ModalBaseComponent>[] = [];
+  private readonly environmentInjector = inject(EnvironmentInjector);
+  private viewContainerRef = inject(ViewContainerRef);
+  private injector = inject(Injector);
 
-  constructor() {
+
+  openModal(content: Type<any>, customOptions: Partial<ModalOptionsI> = {}) {
+
+    const context = new ModalContext();
+    const env: EnvironmentInjector = createEnvironmentInjector([{ provide: ModalContext, useValue: context }], this.environmentInjector);
+
+    const defaultOptions: ModalOptionsI = {
+      size: 'md',
+      scrollable: false,
+      position: 'center',
+      static: false,
+    };
+
+    const modalOptions: ModalOptionsI = { ...defaultOptions, ...customOptions };
+
+    return new Promise((resolve, reject): void => {
+      const modalBody = this.viewContainerRef.createComponent(content, { injector: this.injector, environmentInjector: env });
+      const childElementsArray:any = Array.from(modalBody.location.nativeElement.children);
+
+      const modalContainer = this.viewContainerRef.createComponent(ModalBaseComponent, {
+        injector: this.injector, 
+        projectableNodes: [childElementsArray]
+      });
+
+
+      modalContainer.instance.modalOptions = modalOptions;
+      modalContainer.instance.closeModal = () => {
+        this.closeModal(modalContainer);
+        resolve(()=>{});
+      };
+      
+      context.close = () => {
+        modalContainer.instance.close()
+      }
+
+    });
 
   }
 
-  public getModalStatus(): Observable<boolean> {
-    return this.modalStatus.asObservable();
+
+  getAllInstances(){
+    return this.componentRefs.map((ref)=>{
+      return ref.hostView;
+    });
+  
   }
 
-  openModal(options?: { size?: 'small' | 'large' | 'extraLarge' | 'fullScreen', scrollable?: boolean, height?: 'full' | 'auto', position?: 'top' | 'center' }) {
-    
-    this.modalSize = options?.size ?? this.modalSize;
-    this.scrollableContent = options?.scrollable ?? this.scrollableContent;
-    
-    this.modalStatus.next(true);
+  private closeModal(modal: ComponentRef<any>) {
+    let index = this.componentRefs.lastIndexOf(modal);
+    this.componentRefs.splice(index, 1);
+    modal.destroy();
   }
 
-  closeModal() {
-    this.modalStatus.next(false);
-  }
-
-  getModalSize(): 'small' | 'large' | 'extraLarge' | 'fullScreen' {
-    return this.modalSize;
-  }
-
-  getScrollableContent(): boolean {
-    return this.scrollableContent;
-  }
-
-  getHeight(): 'full' | 'auto' {
-    return this.height;
-  }
-
-  getPosition(): 'top' | 'center' {
-    return this.position;
-  }
 
 }

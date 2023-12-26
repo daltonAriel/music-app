@@ -1,4 +1,4 @@
-<div class="min-h-screen flex items-center justify-center bg-cover bg-center"
+<div class="min-h-screen flex items-center justify-center bg-cover bg-center overflow-hidden"
     style="background-image: url('/assets/login-bg.jpg');">
 
     <div
@@ -66,23 +66,3 @@
 
 
 </div>
-
-
-<ng-container *ngIf="modalStatus$|async">
-    <app-modal>
-
-        <button header-modal (click)="closeModal()" type="submit"
-            class="w-full bg-slate-800 text-slate-300 px-4 py-2 rounded-md hover:bg-slate-700 focus:outline-none focus:shadow-outline-blue active:bg-slate-600 transition-colors duration-75 ease-linear">
-            Close modal
-        </button>
-
-        <div body-modal class="">
-        </div>
-
-        <button footer-modal (click)="closeModal()" type="submit"
-        class="w-full bg-slate-800 text-slate-300 px-4 py-2 rounded-md hover:bg-slate-700 focus:outline-none focus:shadow-outline-blue active:bg-slate-600 transition-colors duration-75 ease-linear">
-        Close modal
-    </button>
-
-    </app-modal>
-</ng-container>

@@ -1,0 +1,15 @@
+<div class="fixed inset-0 z-[1050] bg-black bg-opacity-50">
+</div>
+
+<div class="modalContainer" (click)="closeModalMouseEvent($event)">
+  <div class="flex items-center justify-center align-middle min-h-[calc(100%-1.75rem*2)]" (@modalAniamtion.done)="animationDone($event)" [@modalAniamtion]="animationModal"
+    [ngClass]="{'modalConainerFullScreen': modalOptions.size==='fullScreen', 'modalConainerSm': modalOptions.size==='sm',
+      'modalConainerMd': modalOptions.size==='md', 'modalConainerLg': modalOptions.size==='lg', 'modalConainerXl': modalOptions.size==='xl',
+      'modalScrolable': modalOptions.scrollable && modalOptions.size!='fullScreen'}">
+
+    <div class="bg-white shadow-md overflow-hidden relative flex flex-col" [ngClass]="{'rounded-lg': modalOptions.size!='fullScreen',
+      'modalFullScreen': modalOptions.size==='fullScreen', }">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>

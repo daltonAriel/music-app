@@ -1,0 +1,57 @@
+.modalContainer{
+    @apply fixed;
+    @apply left-0;
+    @apply top-0 z-[1060];
+    @apply h-[100%];
+    @apply w-[100%];
+    @apply overflow-x-hidden;
+    @apply overflow-y-auto;
+    @apply outline-0;
+}
+
+.modalFullScreen{
+    @apply min-h-full;
+    @apply max-h-full;
+}
+
+.modalConainerFullScreen{
+    @apply max-w-full;
+    @apply max-h-full;
+    @apply w-full;
+    @apply h-full;
+    
+}
+
+.modalConainerSm{
+    @apply m-3;
+    @apply md:m-7;
+    @apply [@media(min-width:320px)]:mx-auto;
+    @apply max-w-[300px];
+}
+
+.modalConainerMd{
+    @apply m-3;
+    @apply md:m-7;
+    @apply sm:mx-auto;
+    @apply max-w-[600px];
+}
+
+.modalConainerLg{
+    @apply m-3;
+    @apply md:m-7;
+    @apply lg:mx-auto;
+    @apply max-w-[800px];
+}
+
+.modalConainerXl{
+    @apply m-3;
+    @apply md:m-7;
+    @apply xl:mx-auto;
+    @apply max-w-[1140px];
+}
+
+
+.modalScrolable{
+    @apply max-h-[calc(100%-0.75rem*2)];
+    @apply sm:max-h-[calc(100%-1.75rem*2)];
+}
