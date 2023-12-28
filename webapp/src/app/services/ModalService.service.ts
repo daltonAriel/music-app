@@ -1,4 +1,4 @@
-import { ComponentRef, Injectable, Injector, Type, ViewContainerRef, inject, createEnvironmentInjector, EnvironmentInjector, EmbeddedViewRef } from '@angular/core';
+import { ComponentRef, Injectable, Injector, Type, ViewContainerRef, inject, createEnvironmentInjector, EnvironmentInjector } from '@angular/core';
 import { ModalBaseComponent } from "../components/modal-base/modal-base.component";
 import { ModalOptionsI } from "@interfaces/modalOptions";
 import { ModalContext } from './ModalContext';
@@ -59,6 +59,7 @@ export class ModalService {
     });
   
   }
+
 
   private closeModal(modal: ComponentRef<any>) {
     let index = this.componentRefs.lastIndexOf(modal);

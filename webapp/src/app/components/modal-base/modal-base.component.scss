@@ -1,3 +1,15 @@
+.modalContent{
+    @apply shadow-md;
+    @apply overflow-hidden;
+    @apply relative;
+    @apply flex;
+    @apply flex-col;
+    @apply justify-between;
+    @apply grow max-h-full;
+    @apply bg-white;
+}
+
+
 .modalContainer{
     @apply fixed;
     @apply left-0;
@@ -9,49 +21,66 @@
     @apply outline-0;
 }
 
-.modalFullScreen{
-    @apply min-h-full;
-    @apply max-h-full;
-}
 
 .modalConainerFullScreen{
     @apply max-w-full;
     @apply max-h-full;
     @apply w-full;
     @apply h-full;
-    
 }
+
+
+.modalFullScreen{
+    @apply min-h-full;
+    @apply max-h-full;
+}
+
 
 .modalConainerSm{
     @apply m-3;
-    @apply md:m-7;
-    @apply [@media(min-width:320px)]:mx-auto;
-    @apply max-w-[300px];
+
+    @apply [@media(min-width:34.75rem)]:m-7;
+    @apply [@media(min-width:34.75rem)]:mx-auto;
+    @apply [@media(min-width:34.75rem)]:max-w-[18.75rem];
 }
+
 
 .modalConainerMd{
     @apply m-3;
-    @apply md:m-7;
-    @apply sm:mx-auto;
-    @apply max-w-[600px];
+    
+    @apply [@media(min-width:34.75rem)]:m-7;
+    @apply [@media(min-width:34.75em)]:mx-auto;
+    @apply [@media(min-width:34.75rem)]:max-w-[31.25rem];
 }
+
 
 .modalConainerLg{
     @apply m-3;
-    @apply md:m-7;
-    @apply lg:mx-auto;
-    @apply max-w-[800px];
+    @apply [@media(min-width:34.75rem)]:m-7;
+    @apply [@media(min-width:53.5rem)]:mx-auto;
+    @apply [@media(min-width:34.75rem)]:max-w-[50rem];
 }
+
 
 .modalConainerXl{
     @apply m-3;
-    @apply md:m-7;
-    @apply xl:mx-auto;
-    @apply max-w-[1140px];
+    @apply [@media(min-width:34.75rem)]:m-7;
+    @apply [@media(min-width:74.75rem)]:mx-auto;
+    @apply [@media(min-width:34.75rem)]:max-w-[71.25rem];
 }
 
 
-.modalScrolable{
-    @apply max-h-[calc(100%-0.75rem*2)];
-    @apply sm:max-h-[calc(100%-1.75rem*2)];
+.modalContainerCenter{
+    @apply flex;
+    @apply items-center;
+    @apply min-h-[calc(100%-1.75rem)];
+    @apply [@media(min-width:34.75rem)]:min-h-[calc(100%-3.5rem)];
+}
+
+
+.modalCScrollable{
+    @apply h-[calc(100%-1.5rem)];
+    @apply [@media(min-width:34.75rem)]:h-[calc(100%-3.5rem)];
+    @apply max-h-[calc(100%-1.5rem)];
+    @apply [@media(min-width:34.75rem)]:max-h-[calc(100%-3.5rem)];
 }

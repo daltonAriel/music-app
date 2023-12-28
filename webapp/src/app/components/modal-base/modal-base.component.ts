@@ -1,4 +1,4 @@
-import { Component, HostListener, Input, ElementRef, inject, OnDestroy, OnInit, HostBinding, AfterViewInit } from '@angular/core';
+import { Component, HostListener, Input, inject, OnDestroy, HostBinding, AfterViewInit, ElementRef, Renderer2 } from '@angular/core';
 import { DOCUMENT } from "@angular/common";
 import { CommonModule } from '@angular/common';
 import { ModalOptionsI } from "@interfaces/modalOptions";
@@ -27,23 +27,21 @@ import { animate, state, style, transition, trigger, AnimationEvent } from '@ang
     ])
   ],
 })
-export class ModalBaseComponent implements OnInit, AfterViewInit, OnDestroy {
-  ngAfterViewInit(): void {
-    this.hideScroll();
-  }
+export class ModalBaseComponent implements AfterViewInit, OnDestroy {
 
   @Input() modalOptions!: ModalOptionsI;
   @Input() closeModal!: () => void;
   animationModal: 'open' | 'closed' | 'normal' | 'zoomed' = 'open';
 
   private document = inject(DOCUMENT);
-  private elementRef: ElementRef = inject(ElementRef);
   private restoreOverflow = () => { };
+  private el: ElementRef = inject(ElementRef);
+  private render: Renderer2 = inject(Renderer2);
 
   @HostBinding('@modalAniamtion') public fadeInOut = true;
 
   @HostListener('document:keydown.escape', ['$event'])
-  handleEscapeKey(event: KeyboardEvent) {
+  private handleEscapeKey(event: KeyboardEvent) {
     if (!this.modalOptions.static) {
       this.close();
     } else if (this.modalOptions.static && this.modalOptions.size != 'fullScreen') {
@@ -51,24 +49,29 @@ export class ModalBaseComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  ngOnInit(): void {
-    console.log(this.modalOptions);
-   }
+
+  ngAfterViewInit(): void {
+    this.hideScroll();
+    this.addClickOutsideListener();
+  }
 
 
   ngOnDestroy(): void {
     this.restoreOverflow();
   }
 
-  closeModalMouseEvent(event: MouseEvent) {
-    const modalElement = this.elementRef.nativeElement.querySelector('.modalContainer');
-    if (modalElement && modalElement === event.target) {
-      if (!this.modalOptions.static) {
-        this.close();
-      } else if (this.modalOptions.static && this.modalOptions.size != 'fullScreen') {
-        this.animationModal = 'zoomed';
+
+  private addClickOutsideListener() {
+    const clickOutsideListener = (event: MouseEvent) => {
+      if (!(event.target as HTMLElement).closest('.modalContent')) {
+        if (!this.modalOptions.static) {
+          this.close();
+        } else if(this.modalOptions.static && this.modalOptions.size != 'fullScreen') {
+          this.animationModal = 'zoomed';
+        }
       }
-    }
+    };
+    this.render.listen(this.el.nativeElement, 'click', clickOutsideListener);
   }
 
 
@@ -99,6 +102,7 @@ export class ModalBaseComponent implements OnInit, AfterViewInit, OnDestroy {
       this.closeModal();
     }
   }
+
 
   close() {
     this.animationModal = 'closed';

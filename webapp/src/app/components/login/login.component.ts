@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule, registerLocaleData } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -42,7 +42,7 @@ export class LoginComponent {
 
 
   openModal() {
-    
+
   }
 
 }
