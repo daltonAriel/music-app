@@ -1,5 +1,6 @@
 from extensions import db, bc
 from models.user import User
+from sqlalchemy import func
 
 
 class UserRepository:
@@ -18,7 +19,7 @@ class UserRepository:
             return None
 
     def coutByEmail(self, email):
-        query = db.session.query(User).filter(User.email == email).count()
+        query = db.session.query(func.count()).filter(User.email == email).scalar()
         return query
 
     def getById(self, id):
