@@ -1,0 +1,86 @@
+.modalContent{
+    @apply shadow-md;
+    @apply overflow-hidden;
+    @apply relative;
+    @apply flex;
+    @apply flex-col;
+    @apply justify-between;
+    @apply grow max-h-full;
+    @apply bg-white;
+}
+
+
+.modalContainer{
+    @apply fixed;
+    @apply left-0;
+    @apply top-0 z-[1060];
+    @apply h-[100%];
+    @apply w-[100%];
+    @apply overflow-x-hidden;
+    @apply overflow-y-auto;
+    @apply outline-0;
+}
+
+
+.modalConainerFullScreen{
+    @apply max-w-full;
+    @apply max-h-full;
+    @apply w-full;
+    @apply h-full;
+}
+
+
+.modalFullScreen{
+    @apply min-h-full;
+    @apply max-h-full;
+}
+
+
+.modalConainerSm{
+    @apply m-3;
+
+    @apply [@media(min-width:34.75rem)]:m-7;
+    @apply [@media(min-width:34.75rem)]:mx-auto;
+    @apply [@media(min-width:34.75rem)]:max-w-[18.75rem];
+}
+
+
+.modalConainerMd{
+    @apply m-3;
+    
+    @apply [@media(min-width:34.75rem)]:m-7;
+    @apply [@media(min-width:34.75em)]:mx-auto;
+    @apply [@media(min-width:34.75rem)]:max-w-[31.25rem];
+}
+
+
+.modalConainerLg{
+    @apply m-3;
+    @apply [@media(min-width:34.75rem)]:m-7;
+    @apply [@media(min-width:53.5rem)]:mx-auto;
+    @apply [@media(min-width:34.75rem)]:max-w-[50rem];
+}
+
+
+.modalConainerXl{
+    @apply m-3;
+    @apply [@media(min-width:34.75rem)]:m-7;
+    @apply [@media(min-width:74.75rem)]:mx-auto;
+    @apply [@media(min-width:34.75rem)]:max-w-[71.25rem];
+}
+
+
+.modalContainerCenter{
+    @apply flex;
+    @apply items-center;
+    @apply min-h-[calc(100%-1.75rem)];
+    @apply [@media(min-width:34.75rem)]:min-h-[calc(100%-3.5rem)];
+}
+
+
+.modalCScrollable{
+    @apply h-[calc(100%-1.5rem)];
+    @apply [@media(min-width:34.75rem)]:h-[calc(100%-3.5rem)];
+    @apply max-h-[calc(100%-1.5rem)];
+    @apply [@media(min-width:34.75rem)]:max-h-[calc(100%-3.5rem)];
+}

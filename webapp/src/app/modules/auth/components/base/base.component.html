@@ -1,0 +1,19 @@
+<div class="min-h-screen h-full flex items-center justify-center bg-cover bg-center overflow-hidden"
+    style="background-image: url('assets/login-bg.jpg');">
+
+    <div
+        class="min-h-[30rem] max-w-2xl w-full flex flex-row my-3 mx-3 md:mx-0 rounded-lg backdrop-blur-sm bg-white/45 sm:bg-white/40">
+
+        <div class="hidden sm:block sm:w-full max-w-[1/2] rounded-lg overflow-hidden bg-gray-800">
+            <img loading="lazy" src="assets/login-card-bg.jpg" alt="Imagen" class="object-cover w-full h-full transform blur-[1px]">
+        </div>
+
+        <div [@routerTransition]="getRoute()" class="w-full sm:max-w-[1/2]">
+            <div class="h-full">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+
+    </div>
+
+</div>

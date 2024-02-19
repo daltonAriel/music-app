@@ -1,0 +1,56 @@
+<div class="flex flex-col h-full">
+    <div class="flex flex-col m-5 h-full">
+        <h1 class="text-3xl font-semibold mb-10 text-slate-700 text-center">Log in to Music App</h1>
+
+        <form [formGroup]="loginForm" action="#" method="POST">
+
+            <div class="mb-8">
+                <div class="relative">
+                    <input type="email" id="email" name="email" placeholder="Email"
+                        class="w-full rounded-md p-2 pl-10 h-10 bg-transparent outline-none text-slate-700 border placeholder-slate-500  border-slate-700 focus:ring-inset focus:ring-1 focus:ring-slate-700 transition-all duration-150 ease-out"
+                        formControlName="email">
+                    <div class="absolute top-0 left-0 flex items-center h-full pl-3">
+                        <i class="fa-solid text-slate-700 fa-user text-xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <label for="email" class="sr-only">Password</label>
+                <div class="relative">
+                    <input type="password" id="password" name="password" placeholder="Password"
+                        class="w-full rounded-md p-2 pl-10 h-10 bg-transparent outline-none text-slate-700 border placeholder-slate-500  border-slate-700 focus:ring-inset focus:ring-1 focus:ring-slate-700 transition-all duration-150 ease-out"
+                        formControlName="password">
+                    <div class="absolute top-0 left-0 flex items-center h-full pl-3">
+                        <i class="fa-solid text-slate-700 fa-key text-xl"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="flex items-center justify-between">
+                    <button (click)="getAccess()" type="submit"
+                        class="w-full bg-slate-800 text-slate-300 px-4 py-2 rounded-md outline-none hover:bg-slate-700 focus:bg-slate-700 active:bg-slate-600 transition-colors duration-75 ease-linear active:scale-[0.99] transform-gpu">
+                        Log In
+                    </button>
+                </div>
+                <div class="flex justify-end">
+                    <a href="/" class="text-slate-700 hover:underline outline-none focus:underline">Forgot Password?</a>
+                </div>
+            </div>
+
+        </form>
+
+        <div class="flex items-center my-4">
+            <div class="border-t border-slate-700 flex-grow"></div>
+            <div class="mx-2 text-slate-700">OR</div>
+            <div class="border-t border-slate-700 flex-grow"></div>
+        </div>
+
+        <div class="flex grow items-end justify-center">
+            <h1 class="text-slate-700">Don't have account? 
+                <a routerLink="/signup" class="hover:underline font-semibold outline-none focus:underline">Sign up</a>
+            </h1>
+        </div>
+    </div>
+</div>
