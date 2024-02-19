@@ -7,9 +7,8 @@ class JwtUtils:
         token = create_access_token(
             identity=user.user_id,
             additional_claims={
-                "roles": [role.name for role in user.roles],
-                "first_name": user.first_name,
-                "last_name": user.last_name,
+                "roles": [role.name.value for role in user.roles],
+                "user_name": user.user_id,
                 "email": user.email,
             },
         )
