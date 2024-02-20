@@ -10,7 +10,7 @@ class User(db.Model):
     user_name = db.Column(db.String(80), unique=False, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(120), unique=False, nullable=False)
-    active = db.Column(db.Boolean(), unique=False, nullable=False)
+    active = db.Column(db.Boolean(), unique=False, nullable=False, default=True)
     roles = db.relationship(
         "Role", secondary="role_user", backref=db.backref("users", lazy="dynamic")
     )
