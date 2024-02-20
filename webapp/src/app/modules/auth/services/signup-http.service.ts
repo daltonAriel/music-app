@@ -11,7 +11,7 @@ export class SignupHttpService {
 
   private httpClient = inject(HttpClient);
 
-  register(data: { username: string, email: string, password: string }): Observable<any> {
+  register(data: { user_name: string, email: string, password: string }): Observable<any> {
     return this.httpClient.post(`${API_URL}/user/register`, data);
   }
 
