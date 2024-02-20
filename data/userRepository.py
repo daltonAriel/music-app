@@ -6,7 +6,6 @@ from sqlalchemy import func
 class UserRepository:
     def saveOne(self, user: User):
         db.session.add(user)
-        db.session.commit()
         return user
 
     def getByCredentials(self, email, password):
