@@ -1,6 +1,5 @@
-from extensions import db, bc
+from extensions import db
 from models.role import Role
-from sqlalchemy import func
 
 
 class RoleRepository:
