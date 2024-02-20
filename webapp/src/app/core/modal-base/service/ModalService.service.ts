@@ -1,6 +1,6 @@
 import { ComponentRef, Injectable, Injector, Type, ViewContainerRef, inject, createEnvironmentInjector, EnvironmentInjector } from '@angular/core';
 import { ModalBaseComponent } from "../modal-base.component";
-import { ModalOptionsI } from "@core/modal-base/service/modalOptions";
+import { ModalOptionsI } from "../service/modalOptions";
 import { ModalContext } from './ModalContext';
 
 @Injectable({
