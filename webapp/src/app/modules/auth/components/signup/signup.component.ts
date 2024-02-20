@@ -19,7 +19,7 @@ export class SignupComponent implements OnInit {
 
   signupForm!: FormGroup;
 
-  constructor(private signUpValidators: SignUpValidatorsService) { }
+  constructor(private signUpValidators: SignUpValidatorsService, private signupHtppService: SignupHttpService) { }
 
   ngOnInit(): void {
     this.signupForm = new FormGroup({
@@ -27,12 +27,30 @@ export class SignupComponent implements OnInit {
       email: new FormControl('', { validators: [Validators.required, Validators.email], asyncValidators: [this.signUpValidators.checkEmail()] }),
       password: new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(120)]),
       confirmPassword: new FormControl('', [Validators.required])
-    }, {validators: [this.signUpValidators.checkConforirmPassword()]});
+    }, { validators: [this.signUpValidators.checkConforirmPassword()] });
 
   }
 
-  register() { 
-    console.log(this.signupForm.getError('passwordNotMatchErr'))
+  register() {
+    if (this.signupForm.valid) {
+      let data = {
+        user_name: this.signupForm.value.userName,
+        email: this.signupForm.value.email,
+        password: this.signupForm.value.password
+      }
+
+      this.signupHtppService.register(data).subscribe({
+        next: (res) => {
+          this.signupForm.reset();
+          //TODO
+        },
+        error: (err) => {
+          //TODO
+        }
+      })
+    }
+    this.signupForm.markAllAsTouched();
+    this.signupForm.markAsDirty();
   }
 
 }
