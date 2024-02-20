@@ -4,6 +4,9 @@ from models import UserSchema
 from utils import JwtUtils
 from flask_jwt_extended import jwt_required
 from utils import hasRole
+from extensions import db
+from data import RoleRepository
+from utils import EmailSchema
 
 UserRoutes = Blueprint("UserRoutes", __name__)
 
@@ -11,18 +14,23 @@ UserRoutes = Blueprint("UserRoutes", __name__)
 @UserRoutes.route("/user/register", methods=["POST"])
 def register():
     userRepository = UserRepository()
+    roleRepository = RoleRepository()
     schema = UserSchema()
-    usuario = schema.load(request.get_json())
+    userObj = schema.load(request.get_json())
 
-    if userRepository.coutByEmail(usuario.email) >= 1:
+    if userRepository.coutByEmail(userObj.email) >= 1:
         return jsonify({"message": "Registration failed, user already exists."}), 400
 
-    user = userRepository.saveOne(usuario)
+    user = userRepository.saveOne(userObj)
+    userRole = roleRepository.getByName('ROLE_USER')
+    user.roles.append(userRole)
+    db.session.flush()
 
     if user is not None:
         jwtUtil = JwtUtils()
         accessToken = jwtUtil.createToken(user)
         refreshToken = jwtUtil.createRefreshToken(identity=user.user_id)
+        db.session.commit()
         return jsonify({"accessToken": accessToken, "refreshToken": refreshToken}), 201
 
     return jsonify({"message": "Registration failed"}), 400
@@ -47,11 +55,11 @@ def login():
     return jsonify({"accessToken": accessToken, "refreshToken": refreshToken}), 200
 
 
-@UserRoutes.route("/user/data", methods=["POST"])
-@jwt_required()
-@hasRole(['customRole'])
+@UserRoutes.route("/user/email-count", methods=["POST"])
 def getProtectedData():
-    print('================')
-    print(g.get('rolesToken'))
-    print('================')
-    return jsonify([1, 2, 3, 4, 5])
+    email = request.json.get("email")
+    schema = EmailSchema()
+    data:EmailSchema = schema.load({'email':email})
+    userRepository = UserRepository()
+    count = userRepository.coutByEmail(data['email'])
+    return jsonify({"count": count}), 200
