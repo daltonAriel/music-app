@@ -5,7 +5,6 @@ from sqlalchemy import func
 
 class UserRepository:
     def saveOne(self, user: User):
-        user.password = bc.generate_password_hash(user.password).decode("utf-8")
         db.session.add(user)
         db.session.commit()
         return user
