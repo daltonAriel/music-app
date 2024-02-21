@@ -4,7 +4,7 @@ from models import UserSchema
 from utils import JwtUtils
 from flask_jwt_extended import jwt_required
 from utils import hasRole
-from extensions import db
+from extensions import db, bc
 from data import RoleRepository
 from utils import EmailSchema
 
@@ -20,6 +20,8 @@ def register():
 
     if userRepository.coutByEmail(userObj.email) >= 1:
         return jsonify({"message": "Registration failed, user already exists."}), 400
+
+    userObj.password = bc.generate_password_hash(userObj.password).decode('utf-8')
 
     user = userRepository.saveOne(userObj)
     userRole = roleRepository.getByName('ROLE_USER')
