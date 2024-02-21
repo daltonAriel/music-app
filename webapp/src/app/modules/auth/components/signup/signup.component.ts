@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 
 import { SignupHttpService } from '../../services/signup-http.service';
 import { SignUpValidatorsService } from '../../validators/signup-validators.service';
+import { TokenInterface } from "@interfaces/tokenInterface";
 
 
 @Component({
@@ -40,7 +41,7 @@ export class SignupComponent implements OnInit {
       }
 
       this.signupHtppService.register(data).subscribe({
-        next: (res) => {
+        next: (res:TokenInterface) => {
           this.signupForm.reset();
           //TODO
         },
