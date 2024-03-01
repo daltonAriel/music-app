@@ -4,4 +4,6 @@ export class ModalContext {
 
   close(): void{}
 
+  closeAll():void{};
+
 }
