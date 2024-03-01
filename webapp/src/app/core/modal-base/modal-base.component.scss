@@ -1,12 +1,10 @@
 .modalContent{
-    @apply shadow-md;
     @apply overflow-hidden;
     @apply relative;
     @apply flex;
     @apply flex-col;
     @apply justify-between;
     @apply grow max-h-full;
-    @apply bg-white;
 }
 
 
