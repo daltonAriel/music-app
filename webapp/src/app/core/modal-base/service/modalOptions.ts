@@ -3,4 +3,5 @@ export interface ModalOptionsI{
     scrollable: boolean;
     position: 'top' | 'center';
     static: boolean;
+    disableAnimations: boolean;
 }

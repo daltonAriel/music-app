@@ -1,9 +1,11 @@
-import { ComponentRef, Injectable, Injector, Type, inject, createEnvironmentInjector, EnvironmentInjector, createComponent, ApplicationRef } from '@angular/core';
+import { ComponentRef, Injectable, Injector, Type, inject, createEnvironmentInjector, EnvironmentInjector, createComponent, ApplicationRef, TemplateRef, EmbeddedViewRef } from '@angular/core';
 import { ModalBaseComponent } from "../modal-base.component";
 import { ModalOptionsI } from "../service/modalOptions";
 import { ModalContext } from './ModalContext';
 import { BackdropModalComponent } from '../backdrop-modal/backdrop-modal.component';
 import { DOCUMENT } from '@angular/common';
+import { ModalStylesI } from './modalStyles';
+import { backDropStyleI } from './backDropStyle';
 
 @Injectable({
   providedIn: 'root'
@@ -17,23 +19,15 @@ export class ModalService {
   private DOC = inject(DOCUMENT);
 
 
-  openModal(content: Type<any>, customOptions: Partial<ModalOptionsI> = {}) {
-    const defaultOptions: ModalOptionsI = {
-      size: 'md',
-      scrollable: false,
-      position: 'center',
-      static: false,
-    };
+  openModal(content: Type<any> | TemplateRef<any>, customOptions: Partial<ModalOptionsI> = {}, customStyles: Partial<ModalStylesI> = {}, customStylesBackdrop: Partial<backDropStyleI> = {}) {
 
     const context = new ModalContext();
     const env: EnvironmentInjector = createEnvironmentInjector([{ provide: ModalContext, useValue: context }], this.environmentInjector);
-    const modalOptions: ModalOptionsI = { ...defaultOptions, ...customOptions };
 
     return new Promise((resolve, reject): void => {
-      const _body = createComponent(content, { elementInjector: this.injector, environmentInjector: env });
-      const modalBodyElements: any = Array.from(_body.location.nativeElement.children);
 
       const modalBackdrop = createComponent(BackdropModalComponent, { elementInjector: this.injector, environmentInjector: this.appRef.injector });
+      const modalBodyElements: Node[] | EmbeddedViewRef<any> = this.createBody(content, env, context);
 
       const modalContainer = createComponent(ModalBaseComponent, {
         elementInjector: this.injector,
@@ -41,7 +35,14 @@ export class ModalService {
         projectableNodes: [modalBodyElements]
       });
 
-      modalContainer.instance.modalOptions = modalOptions;
+      if (customOptions.disableAnimations) {
+        modalContainer.instance.animationsDisabled = customOptions.disableAnimations;
+        modalBackdrop.instance.animationsDisabled = customOptions.disableAnimations;
+      }
+
+      modalContainer.instance.modalOptions = { ...modalContainer.instance.modalOptions, ...customOptions };
+      modalContainer.instance.modalStyles = { ...modalContainer.instance.modalStyles, ...customStyles };
+      modalBackdrop.instance.backdropStyles = {...modalBackdrop.instance.backdropStyles, ...customStylesBackdrop}
 
       this.appRef.attachView(modalContainer.hostView);
       this.appRef.attachView(modalBackdrop.hostView);
@@ -50,6 +51,7 @@ export class ModalService {
         this.closeModal(modalContainer, modalBackdrop);
         resolve(() => { });
       };
+
       modalContainer.instance.closeAllInstances = () => {
         this.closeAll();
       }
@@ -58,6 +60,7 @@ export class ModalService {
         this.closeModal(modalContainer, modalBackdrop);
         resolve(() => { });
       }
+
       context.closeAll = () => {
         this.closeAll();
       }
@@ -66,6 +69,21 @@ export class ModalService {
       this.DOC.body.appendChild(modalBackdrop.location.nativeElement);
       this.modalRefContainer.push({ modal: modalContainer, backDrop: modalBackdrop });
     });
+  }
+
+  private createBody(content: Type<any> | TemplateRef<any>, env: EnvironmentInjector, modalContext: ModalContext) {
+    if (content instanceof (Type)) {
+      const _body = createComponent(content, { elementInjector: this.injector, environmentInjector: env });
+      const modalBodyElements: Node[] = Array.from(_body.location.nativeElement.children);
+      return modalBodyElements;
+    } else {
+      const context = {
+        $implicit: modalContext
+      }
+      const _body = content.createEmbeddedView(context, this.injector);
+      const modalBodyElements: Node[] = _body.rootNodes;
+      return modalBodyElements;
+    }
   }
 
   private closeModal(modalRef: ComponentRef<any>, backdropRef: ComponentRef<any>) {

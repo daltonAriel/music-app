@@ -1,11 +1,12 @@
-<div [@.disabled]="true" class="modalContainer">
-  <div (@modalAnimation.done)="animationDone($event)" [@modalAnimation]="{value:animationModal, params:{tiempo:'10s'}}" [ngClass]="{'modalConainerFullScreen': modalOptions.size==='fullScreen', 'modalConainerSm': modalOptions.size==='sm',
+<div class="modalContainer">
+  <div (@modalAnimation.done)="animationDone($event)" [@modalAnimation]="{value:animationModal}"
+    [ngClass]="{'modalConainerFullScreen': modalOptions.size==='fullScreen', 'modalConainerSm': modalOptions.size==='sm',
       'modalConainerMd': modalOptions.size==='md', 'modalConainerLg': modalOptions.size==='lg', 'modalConainerXl': modalOptions.size==='xl',
       'modalScrolable': modalOptions.scrollable && modalOptions.size!='fullScreen', 'modalContainerCenter':modalOptions.position==='center' && modalOptions.size!='fullScreen',
       'modalCScrollable': modalOptions.scrollable && modalOptions.size!='fullScreen'}">
 
-    <div class="modalContent" [ngClass]="{'rounded': modalOptions.size!='fullScreen',
-      'modalFullScreen': modalOptions.size==='fullScreen'}">
+    <div class="modalContent"
+      [ngClass]="modalOptions.size === 'fullScreen'? 'modalFullScreen':modalStyles.roundedSize + ' '+modalStyles.backgroundColor+ ' '+modalStyles.shadowSize+ ' '+ modalStyles.anyStyle">
       <ng-content></ng-content>
     </div>
   </div>

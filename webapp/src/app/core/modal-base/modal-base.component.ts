@@ -1,10 +1,9 @@
-import { Component, HostListener, Input, inject, OnDestroy, HostBinding, AfterViewInit, ElementRef, Renderer2, Inject, ChangeDetectorRef, AfterContentInit } from '@angular/core';
+import { Component, HostListener, Input, inject, OnDestroy, HostBinding, AfterViewInit, ElementRef, Renderer2, ChangeDetectorRef } from '@angular/core';
 import { DOCUMENT } from "@angular/common";
 import { CommonModule } from '@angular/common';
 import { ModalOptionsI } from "./service/modalOptions";
 import { animate, style, transition, trigger, AnimationEvent } from '@angular/animations';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { config } from 'rxjs';
+import { ModalStylesI } from './service/modalStyles';
 
 
 @Component({
@@ -23,11 +22,11 @@ import { config } from 'rxjs';
         animate("0.3s ease-in-out", style({ transform: 'translateY(0%)', opacity: 1 }))
       ]),
       transition('* => void', [
-        animate("0.3s ease-in-out", style({ transform: 'translateY(-50%)' }))
+        animate("0.3s ease-in-out", style({ transform: 'translateY(-50%)', opacity: 0 }))
       ]),
       transition('* => zoomed', [
-        animate('0.2s ease-out', style({ transform: 'scale(1.02)' })),
-        animate('0.2s ease-out', style({ transform: 'scale(1)' })),
+        animate('0.2s ease-in-out', style({ transform: 'scale(1.02)' })),
+        animate('0.2s ease-in-out', style({ transform: 'scale(1)' })),
       ])
     ])
   ],
@@ -43,7 +42,20 @@ import { config } from 'rxjs';
     }`]
 })
 export class ModalBaseComponent implements AfterViewInit, OnDestroy {
-  @Input() modalOptions!: ModalOptionsI;
+  @Input() modalOptions: ModalOptionsI = {
+    size: 'md',
+    scrollable: false,
+    position: 'center',
+    static: false,
+    disableAnimations: false
+  };
+
+  @Input() modalStyles: ModalStylesI = {
+    backgroundColor: 'bg-white',
+    roundedSize: 'rounded',
+    shadowSize: 'shadow-xl',
+    anyStyle: ''
+  }
   @Input() closeModal!: () => void;
   @Input() closeAllInstances!: () => void;
   animationModal: 'normal' | 'zoomed' = 'normal';
@@ -71,7 +83,6 @@ export class ModalBaseComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.hideScroll();
     this.addClickOutsideListener();
-    this.cdr.detectChanges();
   }
 
 
