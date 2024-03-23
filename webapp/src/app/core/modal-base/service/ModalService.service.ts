@@ -1,6 +1,6 @@
 import { ComponentRef, Injectable, Injector, Type, inject, createEnvironmentInjector, EnvironmentInjector, createComponent, ApplicationRef, TemplateRef, EmbeddedViewRef } from '@angular/core';
 import { ModalBaseComponent } from "../modal-base.component";
-import { ModalOptionsI } from "../service/modalOptions";
+import { ModalOptionsI } from "./modalOptions";
 import { ModalContext } from './ModalContext';
 import { BackdropModalComponent } from '../backdrop-modal/backdrop-modal.component';
 import { DOCUMENT } from '@angular/common';
@@ -26,7 +26,7 @@ export class ModalService {
 
     return new Promise((resolve, reject): void => {
 
-      const modalBackdrop = createComponent(BackdropModalComponent, { elementInjector: this.injector, environmentInjector: this.appRef.injector });
+      const modalBackdrop = createComponent(BackdropModalComponent, {  environmentInjector: this.appRef.injector });
       const modalBodyElements: Node[] | EmbeddedViewRef<any> = this.createBody(content, env, context);
 
       const modalContainer = createComponent(ModalBaseComponent, {
@@ -43,6 +43,7 @@ export class ModalService {
       modalContainer.instance.modalOptions = { ...modalContainer.instance.modalOptions, ...customOptions };
       modalContainer.instance.modalStyles = { ...modalContainer.instance.modalStyles, ...customStyles };
       modalBackdrop.instance.backdropStyles = {...modalBackdrop.instance.backdropStyles, ...customStylesBackdrop}
+      
 
       this.appRef.attachView(modalContainer.hostView);
       this.appRef.attachView(modalBackdrop.hostView);
@@ -68,12 +69,14 @@ export class ModalService {
       this.DOC.body.appendChild(modalContainer.location.nativeElement);
       this.DOC.body.appendChild(modalBackdrop.location.nativeElement);
       this.modalRefContainer.push({ modal: modalContainer, backDrop: modalBackdrop });
+      modalContainer.changeDetectorRef.detectChanges();
     });
   }
 
   private createBody(content: Type<any> | TemplateRef<any>, env: EnvironmentInjector, modalContext: ModalContext) {
     if (content instanceof (Type)) {
-      const _body = createComponent(content, { elementInjector: this.injector, environmentInjector: env });
+      const _body = createComponent(content, { environmentInjector: env });
+      _body.changeDetectorRef.detectChanges();
       const modalBodyElements: Node[] = Array.from(_body.location.nativeElement.children);
       return modalBodyElements;
     } else {
@@ -81,6 +84,7 @@ export class ModalService {
         $implicit: modalContext
       }
       const _body = content.createEmbeddedView(context, this.injector);
+      _body.detectChanges();
       const modalBodyElements: Node[] = _body.rootNodes;
       return modalBodyElements;
     }
