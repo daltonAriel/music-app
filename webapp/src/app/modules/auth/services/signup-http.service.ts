@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Observable, firstValueFrom } from 'rxjs';
+import { Observable } from 'rxjs';
 
-import { API_URL } from "@constants/constants";
+import { API_URL } from "@utils/constants";
 
 @Injectable({
   providedIn: 'any'
