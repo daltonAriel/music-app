@@ -23,8 +23,8 @@ export class ModalService {
 
     const context = new ModalContext();
     const env: EnvironmentInjector = createEnvironmentInjector([{ provide: ModalContext, useValue: context }], this.environmentInjector);
-
-    return new Promise((resolve, reject): void => {
+    
+    return new Promise<void | any>((resolve, reject) => {
 
       const modalBackdrop = createComponent(BackdropModalComponent, {  environmentInjector: this.appRef.injector });
       const modalBodyElements: Node[] | EmbeddedViewRef<any> = this.createBody(content, env, context);
@@ -50,16 +50,16 @@ export class ModalService {
 
       modalContainer.instance.closeModal = () => {
         this.closeModal(modalContainer, modalBackdrop);
-        resolve(() => { });
+        resolve(undefined);
       };
 
       modalContainer.instance.closeAllInstances = () => {
         this.closeAll();
       }
 
-      context.close = () => {
+      context.close = (resolver?:string) => {
         this.closeModal(modalContainer, modalBackdrop);
-        resolve(() => { });
+        resolve(resolver);
       }
 
       context.closeAll = () => {
