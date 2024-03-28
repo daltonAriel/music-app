@@ -1,0 +1,23 @@
+<div *ngIf="options.icon" class="flex justify-center" [ngClass]="[options.bgIconColor]">
+    <fa-icon [icon]="options.icon" class="fa-5x" [ngClass]="[options.iconColor]"></fa-icon>
+</div>
+
+<div class="flex-col overflow-y-auto">
+    <div class="m-3">
+        <div class="flex justify-center my-2 text-center">
+            <h1 [ngClass]="[options.tittleStyle]">{{options.title}}</h1>
+        </div>
+
+        <div class="flex flex-wrap justify-center my-2 text-center">
+            <h1 [ngClass]="[options.messageStyle]">{{options.message}}</h1>
+        </div>
+
+        <div class="flex flex-wrap min-w-full justify-center">
+            <button (click)="confirmAlert()" *ngIf="options.showConfirmButton"
+                class="m-2 basis-4/12 max-[360px]:basis-3/4"
+                [ngClass]="[options.confirmButtonStyle]">{{options.confirmButtonText}}</button>
+            <button (click)="closeAlert()" class="m-2 basis-4/12 max-[360px]:basis-3/4"
+                [ngClass]="[options.closeButtonStyle]">{{options.closeButtonText}}</button>
+        </div>
+    </div>
+</div>
