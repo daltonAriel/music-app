@@ -2,8 +2,8 @@ export class ModalContext {
 
   constructor() { }
 
-  close(): void{}
+  close!: (resolver?: string) => any;
 
-  closeAll():void{};
+  closeAll(): void { };
 
 }
