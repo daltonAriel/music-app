@@ -52,7 +52,7 @@ export class ModalBaseComponent implements AfterViewInit, OnDestroy {
 
   @Input() modalStyles: ModalStylesI = {
     backgroundColor: 'bg-white',
-    roundedSize: 'rounded',
+    roundedSize: 'rounded-xl',
     shadowSize: 'shadow-xl',
     anyStyle: ''
   }
